@@ -1,0 +1,94 @@
+{
+  "customers": [
+    {
+      "id": "CUST001",
+      "name": "Sarah Johnson",
+      "date_of_birth": "1995-04-22",
+      "email": "sarah.johnson@email.com",
+      "phone": "312-555-0199",
+      "address": {
+        "street": "456 Lakeview Dr., Apt 12",
+        "city": "Chicago",
+        "state": "IL",
+        "postal_code": "60611"
+      },
+      "policy_number": "TMAX-2025-CUST1236-001",
+      "status": "active"
+    },
+    {
+      "id": "CUST002",
+      "name": "John Smith",
+      "date_of_birth": "1987-03-15",
+      "email": "john.smith@example.com",
+      "phone": "555-123-4567",
+      "address": {
+        "street": "123 Main St",
+        "city": "New York",
+        "state": "NY",
+        "postal_code": "10001"
+      },
+      "policy_number": "TMAX-2025-CUST2347-002",
+      "status": "active"
+    },
+    {
+      "id": "CUST003",
+      "name": "Emily Davis",
+      "date_of_birth": "1992-08-10",
+      "email": "emily.davis@gmail.com",
+      "phone": "213-555-9876",
+      "address": {
+        "street": "789 Oak Ave",
+        "city": "Los Angeles",
+        "state": "CA",
+        "postal_code": "90210"
+      },
+      "policy_number": "TMAX-2025-CUST3458-003",
+      "status": "active"
+    },
+    {
+      "id": "CUST004",
+      "name": "Michael Brown",
+      "date_of_birth": "1980-12-05",
+      "email": "m.brown@company.com",
+      "phone": "312-555-2468",
+      "address": {
+        "street": "456 Pine St, Suite 200",
+        "city": "Chicago",
+        "state": "IL",
+        "postal_code": "60602"
+      },
+      "policy_number": "TMAX-2025-CUST4569-004",
+      "status": "active"
+    },
+    {
+      "id": "CUST005",
+      "name": "Sarah Johnston",
+      "date_of_birth": "1996-04-20",
+      "email": "s.johnston@email.org",
+      "phone": "312-555-0299",
+      "address": {
+        "street": "457 Lakeview Dr., Apt 10",
+        "city": "Chicago",
+        "state": "IL",
+        "postal_code": "60611"
+      },
+      "policy_number": "TMAX-2025-CUST5670-005",
+      "status": "active"
+    },
+    {
+      "id": "CUST006",
+      "name": "Robert Wilson",
+      "date_of_birth": "1975-01-28",
+      "email": "bob.wilson@domain.com",
+      "phone": "415-555-7890",
+      "address": {
+        "street": "321 Hill Rd",
+        "city": "San Francisco",
+        "state": "CA",
+        "postal_code": "94102"
+      },
+      "policy_number": "TMAX-2025-CUST6781-006",
+      "status": "suspended"
+    }
+  ]
+}
