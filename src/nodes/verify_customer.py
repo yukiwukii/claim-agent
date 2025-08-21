@@ -10,8 +10,7 @@ def load_customer_database(db_path: str = "src/tests/customers.json") -> Dict:
         print(f"Database file {db_path} not found.")
         return {"customers": []}
 
-def fuzzy_match_name(name1: str, name2: str, threshold: float = 0.8) -> bool:
-    """Simple fuzzy matching for names"""
+def match_name(name1: str, name2: str, threshold: float = 0.8) -> bool:
     if not name1 or not name2:
         return False
     
@@ -60,7 +59,7 @@ def verify_customer_node(state):
         db_name = customer.get('name', '')
         db_policy = customer.get('policy_number', '')
         
-        name_matches = fuzzy_match_name(extracted_name, db_name)
+        name_matches = match_name(extracted_name, db_name)
         policy_matches = extracted_policy == db_policy
         
         if name_matches and policy_matches:

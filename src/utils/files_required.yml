@@ -1,0 +1,39 @@
+claim_types:
+  travel_delay:
+    document_classes:
+      - claim_form
+      - passport
+      - boarding_pass
+      - itinerary
+      - delay_notification
+      - receipt
+  
+  baggage_delay:
+    document_classes:
+      - claim_form
+      - passport
+      - boarding_pass
+      - itinerary
+      - property_irregularity_report
+      - receipt
+  
+  trip_cancellation:
+    document_classes:
+      - claim_form
+      - passport
+      - boarding_pass
+      - itinerary
+      - proof_of_payment
+      - invoice
+      - proof_of_cancellation
+      - cancellation_documentation
+  
+  trip_interruption:
+    document_classes:
+      - claim_form
+      - passport
+      - boarding_pass
+      - itinerary
+      - proof_of_interruption
+      - proof_of_unused_services
+      - additional_expenses
