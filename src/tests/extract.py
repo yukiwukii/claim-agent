@@ -33,12 +33,10 @@ def setup_workflow() -> StateGraph:
     workflow = StateGraph(GraphState)
     
     workflow.add_node("classifier", binary_classifier)
-    workflow.add_node("claim_form_or_not", claim_form_or_not)
     workflow.add_node("extract_claim_form_node", extract_claim_form_node)
     
     workflow.add_edge(START, "classifier")
-    workflow.add_edge("classifier", "claim_form_or_not")
-    workflow.add_conditional_edges("claim_form_or_not", lambda state: claim_form_or_not(state))
+    workflow.add_conditional_edges("classifier", claim_form_or_not)
     workflow.add_edge("extract_claim_form_node", END)
     
     return workflow
@@ -58,16 +56,14 @@ def run_workflow():
     result_check = binary_classifier(initial_state).claim_form_or_not
     print(f"Is Claim Form: {result_check}")
     
-    if result_check:
+    if result_check:  # Extract when it IS a claim form
         print("\nCustomer Data:")
         customer_data = result.get('customer_data', {})
-        for key, value in customer_data.items():
-            print(f"  {key}: {value}")
+        print(customer_data)
         
         print("\nClaim Data:")
         claim_data = result.get('claim_data', {})
-        for key, value in claim_data.items():
-            print(f"  {key}: {value}")
+        print(claim_data)
     else:
         print("Document is not a claim form - no extraction performed")
 

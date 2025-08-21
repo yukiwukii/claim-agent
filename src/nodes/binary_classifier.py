@@ -1,6 +1,8 @@
 from pydantic import BaseModel, Field
 from langchain_core.messages import HumanMessage
 from langchain_google_genai import ChatGoogleGenerativeAI
+from dotenv import load_dotenv
+load_dotenv()
 
 class BinaryClassifier(BaseModel):
     claim_form_or_not: bool = Field(description="Whether the text is a claim form or not")
