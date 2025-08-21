@@ -58,7 +58,7 @@ def run_workflow():
     result_check = binary_classifier(initial_state).claim_form_or_not
     print(f"Is Claim Form: {result_check}")
     
-    if result_check:
+    if result_check:  # Extract when it IS a claim form
         print("\nCustomer Data:")
         customer_data = result.get('customer_data', {})
         print(customer_data)
