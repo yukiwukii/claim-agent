@@ -1,16 +1,13 @@
-claim_types:
+claim_types: 
   travel_delay:
-    document_classes:
-      - claim_form
+    document_classes: # DO NOT INCLUDE CLAIM FORM
       - passport
-      - boarding_pass
       - itinerary
       - delay_notification
       - receipt
   
   baggage_delay:
     document_classes:
-      - claim_form
       - passport
       - boarding_pass
       - itinerary
@@ -19,7 +16,6 @@ claim_types:
   
   trip_cancellation:
     document_classes:
-      - claim_form
       - passport
       - boarding_pass
       - itinerary
@@ -30,7 +26,6 @@ claim_types:
   
   trip_interruption:
     document_classes:
-      - claim_form
       - passport
       - boarding_pass
       - itinerary

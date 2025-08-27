@@ -1,0 +1,80 @@
+# ZURICH Trip Claim Form
+
+---
+
+### Step 1 - Choose the Type of Claim
+
+*Please select all that apply.*
+
+*   [ ] **Pre-Departure Trip Cancellation**
+*   [ ] **Post-Departure Trip Interruption**
+*   [X] **Travel Delay**
+    > I had an unforeseen delay that caused me to have additional out-of-pocket expenses such as unplanned hotel accommodations, meals, and local transportation.
+*   [ ] **Baggage and Personal Effects**
+*   [ ] **Baggage Delay**
+
+---
+
+## About Me
+
+**Name of the person completing form (First and Last):** Sarah Johnson 
+
+**Confirmation/Policy Number:** TMAX-2025-CUST1236-001
+
+**Mailing address:** 456 Lakeview Dr., Apt 12
+
+**City:** Chicago **State:** IL **Postal code:** 60611
+
+**Mobile phone:** 312-555-0199 **Other phone:** _______________ **Email address:** sarah.johnson@email.com
+
+**Full names of all persons claiming:** Sarah BROWN
+
+**Relationship to person completing form:** Self
+
+**Name of agency/company you purchased your travel insurance from:** GoReady Insurance
+
+**Date initial deposit paid for trip (mm/dd/yyyy):** 04/12/2024
+
+---
+
+## About What Happened
+
+**Please provide a detailed description of the incident(s):**
+My flight to Paris, AF 345, was delayed due to an unannounced strike by French air traffic controllers. The flight was delayed for 8 hours. As a result of the overnight delay, I had to book a hotel room near the airport and buy dinner.
+
+**Date of Loss/Incident (mm/dd/yyyy):** 06/10/2024
+
+**Total Amount Requested for Reimbursement (USD):** $193.50
+
+**Additional Information (Required by Claim Type):**
+
+*   **For Delay Claims:** Reason for Delay: Unannounced Strike Duration (hours): 8
+
+### Breakdown of the Amount Requested for Reimbursement
+
+| Description of Expense (e.g., Hotel, Meals, Clothing) | Date (mm/dd/yyyy) | Amount Requested (USD) |
+| :---------------------------------------------------- | :---------------- | :--------------------- |
+| Hotel Room (Hilton Chicago O'Hare Airport)           | 06/10/2024        | $165.00                |
+| Meal (Chili's Too at O'Hare Airport)                 | 06/10/2024        | $28.50                 |
+|                                                       |                   |                        |
+|                                                       |                   |                        |
+| **Total:**                                            |                   | **$193.50**              |
+
+---
+
+## Refunds or Credits
+
+**Will/have you applied for a refund or credit from the travel supplier?**
+[ ] YES [X] NO
+
+---
+
+## Declaration and Signature
+
+**I DECLARE THE ABOVE INFORMATION IS TRUE, COMPLETE AND CORRECT.**
+
+**Signature of named name of the person completing this form:** Sarah Johnson
+
+**Date (mm/dd/yyyy):** 06/15/2024
+
+[X] The person completing this form understands **checking this agreement box** and **typing your name** in the signature box above constitutes an electronic signature and consent to file this claim electronically.

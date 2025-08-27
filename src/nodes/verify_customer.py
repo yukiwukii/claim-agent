@@ -21,7 +21,7 @@ def match_name(name1: str, name2: str, threshold: float = 0.8) -> bool:
     if SequenceMatcher(None, norm1, norm2).ratio() >= threshold:
         return True
     
-    # Try reversed order (First Last vs Last, First)
+    # Try reversed order
     parts1 = norm1.split()
     parts2 = norm2.split()
     
@@ -36,7 +36,7 @@ def verify_customer_node(state):
     customer_data = state.get('customer_data')
     claim_data = state.get('claim_data')
     if not customer_data:
-        print("Please reupload the claim form. No data is detected.")
+        print("❌ Please reupload the claim form. No data is detected.")
         return {"verification_status": "NO_DATA"}
     
     extracted_name = customer_data.name
@@ -45,7 +45,7 @@ def verify_customer_node(state):
     if not extracted_name or not extracted_policy:
         print("Extracted name", extracted_name)
         print("Extracted policy number", extracted_policy)
-        print("Please reupload the claim form. Either the name or policy number cannot be extracted.")
+        print("❌ Please reupload the claim form. Either the name or policy number cannot be extracted.")
         return {"verification_status": "INCOMPLETE_DATA"}
     
     # Load database
@@ -63,9 +63,10 @@ def verify_customer_node(state):
         policy_matches = extracted_policy == db_policy
         
         if name_matches and policy_matches:
+            print("Customer verification successful!")
             return {
                 "verification_status": "VERIFIED",
             }
     
-    print("Please reupload the claim form. No matching customer found.")
+    print("❌ Please reupload the claim form. No matching customer found.")
     return {"verification_status": "NO_MATCH"}

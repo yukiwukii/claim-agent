@@ -1,137 +1,139 @@
-from pydantic import BaseModel, Field
 from langchain_core.messages import HumanMessage
 from langchain_google_genai import ChatGoogleGenerativeAI
-from typing import Literal, List, Dict
-import yaml
+from typing import List, Dict, Any, Literal
+from pydantic import BaseModel, Field
+from dotenv import load_dotenv
 import os
 
-class ClaimTypeClassification(BaseModel):
-    """Classification of claim type based on claim form data"""
-    claim_type: Literal[
-        "travel_delay",
-        "baggage_delay", 
-        "trip_cancellation",
-        "trip_interruption"
-    ] = Field(description="Type of insurance claim identified from the claim form")
+load_dotenv()
 
-def load_claim_config(config_path: str = "src/utils/files_required.yml") -> Dict:
+def load_document_from_path(filepath: str) -> str:
     try:
-        with open(config_path, 'r') as file:
-            config = yaml.safe_load(file)
-        return config
+        with open(filepath, "r", encoding="utf-8") as file:
+            return file.read()
     except FileNotFoundError:
-        raise FileNotFoundError(f"Configuration file {config_path} not found")
-    except yaml.YAMLError as e:
-        raise ValueError(f"Error parsing YAML configuration: {e}")
+        raise FileNotFoundError(f"Document file {filepath} not found.")
+    except Exception as e:
+        raise Exception(f"Error reading document {filepath}: {e}")
 
-def get_claim_type_document_classes(config_path: str = "src/utils/files_required.yml") -> Dict[str, List[str]]:
-    config = load_claim_config(config_path)
+def create_dynamic_classification_model(valid_classes: List[str]) -> type:
+    ClassesLiteral = Literal[tuple(valid_classes)]
     
-    claim_type_classes = {}
-    for claim_type, claim_config in config['claim_types'].items():
-        claim_type_classes[claim_type] = claim_config['document_classes']
+    class DynamicDocumentClassification(BaseModel):
+        document_classes: List[ClassesLiteral] = Field(
+            description=f"List of document classes from: {', '.join(valid_classes)}"
+        )
     
-    return claim_type_classes
+    return DynamicDocumentClassification
 
-def claim_type_classifier(state, config_path: str = "src/utils/files_required.yml"):
-    claim_data = state.get("claim_data", {})
-    if not claim_data:
-        raise ValueError("Claim form must be processed before claim type classification.")
-    
-    reason_for_claim = getattr(claim_data, 'reason_for_claim', None)
-    
-    if not reason_for_claim:
-        raise ValueError("No reason_for_claim found in claim data.")
+def classify_single_document(document_content: str, required_documents: List[str], claim_type: str) -> List[str]:
+    DynamicModel = create_dynamic_classification_model(required_documents)
     
     prompt = f"""
-    Based on the following claim information, classify the type of insurance claim.
-
-    Claim reason: {reason_for_claim}
-
-    Valid claim types:
-    - travel_delay: Claims for expenses due to flight/travel delays
-    - baggage_delay: Claims for delayed baggage and related expenses  
-    - trip_cancellation: Claims for cancelled trips before departure
-    - trip_interruption: Claims for trips that were interrupted after departure
-
-    Classify this as exactly one of the above claim types based on the reason provided.
+    You are a document classifier for travel insurance claims.
+    
+    Claim Type: {claim_type}
+    
+    Classify the following document into one or more of these categories:
+    {', '.join(required_documents)}
+    
+    Document Content:
+    {document_content}
+    
+    Instructions:
+    - A document can belong to multiple categories if it contains information for multiple document types
+    - Only use the categories listed above for this specific claim type
+    - Be conservative with classifications - only assign a class if you're reasonably confident
     """
 
-    chat = ChatGoogleGenerativeAI(model='gemini-2.5-flash', temperature=0)
-    structured_llm = chat.with_structured_output(ClaimTypeClassification)
+    chat = ChatGoogleGenerativeAI(model='gemini-1.5-flash', temperature=0)
+    structured_llm = chat.with_structured_output(DynamicModel)
     messages = [HumanMessage(content=prompt)]
-    response = structured_llm.invoke(messages)
     
-    claim_type_classes = get_claim_type_document_classes(config_path)
-    
-    claim_type = response.claim_type
-    valid_document_classes = claim_type_classes[claim_type]
-    
-    return {
-        "claim_type": claim_type,
-        "valid_document_classes": valid_document_classes,
-        "claim_type_classification": response
-    }
+    try:
+        response = structured_llm.invoke(messages)
+        return response.document_classes
+    except Exception as e:
+        print(f"Error in document classification: {e}")
+        return []
 
-def get_document_classes_for_claim_type(claim_type: str, config_path: str = "claim_config.yaml") -> List[str]:
-    """
-    Utility function to get valid document classes for a given claim type
-    """
-    claim_type_classes = get_claim_type_document_classes(config_path)
+def multiclass_classifier(state: Dict[str, Any]) -> Dict[str, Any]:
+    document_queue = state.get("document_queue", [])
+    current_document = state.get("current_document", "")
+    document_filepath = state.get("document_filepath", "")
+    required_documents = state.get("required_documents", [])
+    claim_type = state.get("claim_type", "")
+    processed_documents = state.get("processed_documents", [])
     
-    if claim_type not in claim_type_classes:
-        raise ValueError(f"{claim_type} is not in the files_required.yml config file.")
+    all_classifications = state.get("all_classifications", {})
     
-    return claim_type_classes[claim_type]
+    if not required_documents:
+        raise ValueError("No required documents found in state. Claim type must be determined first.")
+    
+    if not claim_type:
+        raise ValueError("Claim type must be determined before document classification.")
+    
+    if document_queue:
+        print(f"\nProcessing document queue ({len(document_queue)} documents)...")
+        print("=" * 60)
+        document_classes = state.get("document_classes", set())
 
-def setup_claim_classification_workflow():
-    from langgraph.graph import StateGraph, START, END
-    
-    # This would be part of your larger workflow
-    workflow = StateGraph(GraphState)  # Your existing GraphState
-    
-    # Add the claim type classifier node
-    workflow.add_node("claim_type_classifier", claim_type_classifier)
-    
-    # Route to structured output with claim type context
-    def route_to_structured_output(state):
-        claim_type = state.get("claim_type")
-        if claim_type:
-            return "structured_output"
-        else:
-            return END
-    
-    # Add conditional edge
-    workflow.add_conditional_edges(
-        "claim_type_classifier",
-        route_to_structured_output,
-        {
-            "structured_output": "structured_output",
-            END: END
+        for filepath in document_queue:
+            if filepath in all_classifications:
+                continue
+            try:
+                document_content = load_document_from_path(filepath)
+                classification = classify_single_document(document_content, required_documents, claim_type)
+                
+                filename = os.path.basename(filepath)
+                print(f"\n✅ Classified: {filename}")
+                print(f"   Classes: {classification}")
+                
+                all_classifications[filepath] = classification
+                document_classes.update(classification)
+                
+                if filepath not in processed_documents:
+                    processed_documents.append(filepath)
+                
+            except Exception as e:
+                print(f"❌ Error processing {os.path.basename(filepath)}: {e}")
+        
+        print("\n" + "=" * 60)
+        print(f"Queue processing complete. Processed {len(processed_documents)} documents.")
+        
+        return {
+            "document_classes": document_classes,
+            "document_queue": [],
+            "processed_documents": processed_documents,
+            "all_classifications": all_classifications
         }
-    )
     
-    return workflow
-
-# Example of how structured output node would use this information
-def structured_output_with_claim_context(state):
-    """
-    Example of how the structured output node would use claim type information
-    """
-    document = state.get("current_document")
-    claim_type = state.get("claim_type")
-    valid_classes = state.get("valid_document_classes", [])
-    
-    # Now the structured output can be tailored to the specific claim type
-    # and only consider the valid document classes for that claim type
-    
-    prompt = f"""
-    Extract structured information from this document for a {claim_type} claim.
-    
-    This document should be one of: {', '.join(valid_classes)}
-    
-    Document: {document}
-    """
-    
-    # Continue with structured output logic...
-    return {"structured_output": "..."}
+    else:
+        if not current_document:
+            print("⚠️  No document to process (no queue and no current document)")
+            return {}
+        
+        classification = classify_single_document(current_document, required_documents, claim_type)
+        
+        filename = os.path.basename(document_filepath) if document_filepath else "current_document"
+        print(f"\n✅ Classified: {filename}")
+        print(f"   Classes: {classification}")
+        
+        if document_filepath:
+            all_classifications[document_filepath] = classification
+        
+        if document_filepath not in processed_documents:
+            processed_documents.append(document_filepath)
+        
+        document_classes = state.get("document_classes", set())
+        document_classes.update(classification)
+        # document_classes = set(dict.fromkeys([item for sublist in all_classifications.values() for item in sublist]))
+        print(f"Document classes: {document_classes}")
+        print(f"Required documents: {set(state['required_documents'])}")
+        print("=" * 60)
+        
+        return {
+            "document_classes": document_classes,
+            "processed_documents": processed_documents,
+            "all_classifications": all_classifications
+        }
