@@ -321,7 +321,7 @@ def simulate_document_uploads():
     print("Starting Document Upload Simulation")
     print("=" * 60)
 
-    folder_path = "src/tests/test_cases/all_ok_anon/"
+    folder_path = "src/tests/test_cases/invalid_customer/"
     test_files = glob.glob(os.path.join(folder_path, "*.txt"))
     random.shuffle(test_files)
     
