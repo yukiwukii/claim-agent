@@ -51,13 +51,16 @@ def load_document_from_path(filepath: str) -> str:
     except Exception as e:
         raise Exception(f"Error reading document {filepath}: {e}")
 
-def extract_structured_data(document_content: str, schema: Type[BaseModel]) -> BaseModel:
+def extract_structured_data(document_chunk: str, schema: Type[BaseModel]) -> Optional[BaseModel]:
     prompt = f"""
     You are an expert at extracting information from documents.
-    Please extract the relevant details from the following document and format it according to the provided schema.
+    Please extract the relevant details from the following document chunk and format it according to the provided schema.
+    If there is any missing or unclear information, leave it blank.
 
     Document Content:
-    {document_content}
+    ---
+    {document_chunk}
+    ---
     """
     chat = ChatGoogleGenerativeAI(model='gemini-2.5-flash', temperature=0)
     structured_llm = chat.with_structured_output(schema)
@@ -70,11 +73,9 @@ def extract_structured_data(document_content: str, schema: Type[BaseModel]) -> B
         print(f"Error extracting structured data: {e}")
         return None
 
-
 def structured_output_node(state: Dict[str, Any]) -> Dict[str, Any]:
     processed_documents = state.get("processed_documents", [])
     all_classifications = state.get("all_classifications", {})
-
     supporting_docs = state.get("supporting_documents_data", {})
 
     for doc_path in processed_documents:
@@ -82,21 +83,33 @@ def structured_output_node(state: Dict[str, Any]) -> Dict[str, Any]:
         if doc_filename in supporting_docs:
             continue
             
-        doc_classes = all_classifications.get(doc_path, [])
+        doc_classifications = all_classifications.get(doc_path, [])
         doc_content = load_document_from_path(doc_path)
+        doc_lines = doc_content.splitlines()
 
-        for doc_class in doc_classes:
-            if doc_class in supporting_docs:
+        for classification in doc_classifications:
+            class_name = classification['document_class']
+            start_line = classification.get('start_line', 0)
+            end_line = classification.get('end_line', 0)
+
+            if class_name == 'irrelevant' or start_line <= 0 or end_line <= 0 or end_line < start_line:
+                continue
+                
+            # Double entry TODO: Add a functionality.
+            if class_name in supporting_docs:
                 continue 
 
-            schema = SCHEMA_MAP.get(doc_class)
+            schema = SCHEMA_MAP.get(class_name)
             if schema:
-                print(f"Extracting '{doc_class}' details from {doc_filename}...")
-                extracted_data = extract_structured_data(doc_content, schema)
+                document_chunk = "\n".join(doc_lines[start_line - 1 : end_line]) # TODO: Add save here.
+                
+                print(f"\n\nExtracting '{class_name}' details from {doc_filename} (lines {start_line}-{end_line})...")
+                extracted_data = extract_structured_data(document_chunk, schema)
+                
                 if extracted_data:
-                    if doc_class not in supporting_docs:
-                        supporting_docs[doc_class] = []
-                    supporting_docs[doc_class].append(extracted_data.model_dump())
+                    if class_name not in supporting_docs:
+                        supporting_docs[class_name] = []
+                    supporting_docs[class_name].append(extracted_data.model_dump())
                     print(f"Successfully extracted: {extracted_data.model_dump()}")
-    # print(f"All supporting documents extracted: {supporting_docs}")
+                    
     return {"supporting_documents_data": supporting_docs}

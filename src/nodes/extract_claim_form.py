@@ -83,7 +83,7 @@ def extract_claim_form_node(state):
     print("Claim type is:", claim_data.claim_type)
     print("Required documents are:", required_documents)
 
-    all_classifications = state.get("all_classifications", {})
+    # all_classifications = state.get("all_classifications", {})
 
     return {
         "customer_data": customer_data,

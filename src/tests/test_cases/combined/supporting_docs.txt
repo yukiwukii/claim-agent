@@ -1,0 +1,99 @@
+**AIR FRANCE**
+
+**OFFICIAL FLIGHT DELAY NOTIFICATION**
+
+DATE: 10 JUNE 2024
+PASSENGER: JOHNSON, SARAH
+BOOKING REF: 4BKM9T
+
+This letter serves to confirm that Air France flight AF 345, scheduled to depart from Chicago (ORD) to Paris (CDG) on June 10, 2024, was subject to a significant delay.
+
+**FLIGHT DETAILS:**
+- **Scheduled Departure:** 18:00 (CDT), June 10, 2024
+- **Actual Departure:** 02:00 (CDT), June 11, 2024
+- **Total Delay Duration:** 8 Hours
+
+**REASON FOR DELAY:**
+The delay was a direct result of an unforeseen and unannounced labor strike by air traffic control personnel in France, which impacted all flights operating within French airspace. This event was outside of Air France's control.
+
+We apologize for the inconvenience this disruption caused to your travel plans.
+
+Sincerely,
+Air France Customer Service
+Chicago O'Hare International Airport
+
+AIR FRANCE - FLIGHT ITINERARY
+
+BOOKING REFERENCE: 4BKM9T
+PASSENGER NAME: SARAH JOHNSON
+E-TICKET NUMBER: 057-9876543210
+DATE OF ISSUE: 12 APR 2024
+
+YOUR TRIP
+------------------------------------------------------------------
+FLIGHT: AF 345 - AIR FRANCE
+DEPARTURE: CHICAGO, O'HARE (ORD)
+TERMINAL 5
+DATE: 10 JUNE 2024
+TIME: 18:00 (CDT)
+
+ARRIVAL: PARIS, CHARLES DE GAULLE (CDG)
+TERMINAL 2E
+DATE: 11 JUNE 2024
+TIME: 09:15 (CEST)
+------------------------------------------------------------------
+STATUS: CONFIRMED
+CLASS: ECONOMY
+
+Thank you for choosing Air France.
+
+P<USAJOHNSON<<SARAH<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+B98765432<1USA9504229F2908153<<<<<<<<<<<<<<08
+
+TYPE/TYPE: P
+COUNTRY CODE/CODE DU PAYS: USA
+PASSPORT NO./NO. DU PASSEPORT: B98765432
+SURNAME/NOM: JOHNSON
+GIVEN NAME/PRÉNOMS: SARAH
+NATIONALITY/NATIONALITÉ: UNITED STATES OF AMERICA
+DATE OF BIRTH/DATE DE NAISSANCE: 22 APR / AVR 1995
+SEX/SEXE: F
+PLACE OF BIRTH/LIEU DE NAISSANCE: ILLINOIS, U.S.A.
+DATE OF ISSUE/DATE DE DÉLIVRANCE: 16 AUG / AOU 2019
+DATE OF EXPIRY/DATE D'EXPIRATION: 15 AUG / AOU 2029
+AUTHORITY/AUTORITÉ: UNITED STATES DEPARTMENT OF STATE
+
+********************************
+**HILTON CHICAGO O'HARE AIRPORT**
+O'Hare International Airport
+Chicago, IL 60666
+(773) 686-8000
+
+GUEST: JOHNSON, SARAH
+DATE: 10-JUN-2024
+
+ROOM 1 KING BED ................. 148.00
+STATE/CITY TAX ................  17.00
+----------------------------------------
+TOTAL ........................... 165.00 USD
+
+PAYMENT: MC ****1121 .......... $165.00
+********************************
+
+********************************
+**CHILI'S TOO - ORD T5**
+Chicago O'Hare Int'l Airport
+Terminal 5, Gate M11
+
+10-JUN-2024   20:45
+
+1x CHICKEN FAJITAS ............ 19.99
+1x ICED TEA ...................  4.29
+----------------------------------------
+SUBTOTAL ...................... 24.28
+TAX ...........................  4.22
+----------------------------------------
+TOTAL ......................... 28.50 USD
+
+PAID - MASTERCARD ****1121
+********************************

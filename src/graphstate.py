@@ -115,13 +115,22 @@ def route_after_binary_classification(state: GraphState) -> str:
         return "add_to_queue"
 
 def add_to_queue_node(state: GraphState) -> Dict:
-    """Add current document to queue if it's not the claim form"""
     document_filepath = state.get("document_filepath", "")
     document_queue = state.get("document_queue", [])
     
     if document_filepath and document_filepath not in document_queue:
         document_queue.append(document_filepath)
         print(f"Added {os.path.basename(document_filepath)} to document queue. Queue now has {len(document_queue)} documents.")
+    
+    return {"document_queue": document_queue}
+
+def add_claim_form_to_queue_node(state: GraphState) -> Dict:
+    document_filepath = state.get("document_filepath", "")
+    document_queue = state.get("document_queue", [])
+    
+    if document_filepath and document_filepath not in document_queue:
+        document_queue.append(document_filepath)
+        print(f"Added verified claim form {os.path.basename(document_filepath)} to document queue. Queue now has {len(document_queue)} documents.")
     
     return {"document_queue": document_queue}
 
@@ -137,16 +146,12 @@ def nullify_claim_form_node(state: GraphState) -> Dict:
     }
 
 def route_after_verification(state: GraphState) -> str:
-    """Route after customer verification"""
+    """Route after customer verification. If verified, add claim form to queue for processing."""
     verification_status = state.get("verification_status")
-    document_queue = state.get("document_queue", [])
     
     if verification_status == "VERIFIED":
-        if len(document_queue) > 0:
-            print(f"✅ Claim form verified! Now processing {len(document_queue)} queued documents...")
-            return "multiclass_classifier"
-        else:
-            return END
+        print(f"✅ Claim form verified! Adding to queue for the second pass...")
+        return "add_claim_form_to_queue"
     else:
         return "nullify_claim_form"
     
@@ -233,6 +238,7 @@ def setup_workflow() -> StateGraph:
     workflow.add_node("structured_output", structured_output_node)
     workflow.add_node("is_results_clear", is_results_clear_node)
     workflow.add_node("are_all_checklists_complete", are_all_checklists_complete_node) 
+    workflow.add_node("add_claim_form_to_queue", add_claim_form_to_queue_node)
     
     workflow.add_edge(START, "ocr")
     
@@ -255,19 +261,19 @@ def setup_workflow() -> StateGraph:
     )
     
     workflow.add_edge("multiclass_classifier", "structured_output")
-    
     workflow.add_edge("extract_claim_form", "verify_customer")
     
     workflow.add_conditional_edges(
         "verify_customer", 
         route_after_verification,
         {
-            "multiclass_classifier": "multiclass_classifier",
+            "add_claim_form_to_queue": "add_claim_form_to_queue",
             "nullify_claim_form": "nullify_claim_form",
-            END: END
         }
     )
     
+    workflow.add_edge("add_claim_form_to_queue", "multiclass_classifier")
+
     workflow.add_edge("add_to_queue", END)
     workflow.add_edge("nullify_claim_form", END)
     workflow.add_edge("structured_output", "is_results_clear")
@@ -321,7 +327,7 @@ def simulate_document_uploads():
     print("Starting Document Upload Simulation")
     print("=" * 60)
 
-    folder_path = "src/tests/test_cases/invalid_customer/"
+    folder_path = "src/tests/test_cases/all_ok_anon/"
     test_files = glob.glob(os.path.join(folder_path, "*.txt"))
     random.shuffle(test_files)
     

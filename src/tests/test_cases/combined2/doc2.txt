@@ -1,0 +1,50 @@
+********************************
+**HILTON CHICAGO O'HARE AIRPORT**
+O'Hare International Airport
+Chicago, IL 60666
+(773) 686-8000
+
+GUEST: JOHNSON, SARAH
+DATE: 10-JUN-2024
+
+ROOM 1 KING BED ................. 148.00
+STATE/CITY TAX ................  17.00
+----------------------------------------
+TOTAL ........................... 165.00 USD
+
+PAYMENT: MC ****1121 .......... $165.00
+********************************
+
+********************************
+**CHILI'S TOO - ORD T5**
+Chicago O'Hare Int'l Airport
+Terminal 5, Gate M11
+
+10-JUN-2024   20:45
+
+1x CHICKEN FAJITAS ............ 19.99
+1x ICED TEA ...................  4.29
+----------------------------------------
+SUBTOTAL ...................... 24.28
+TAX ...........................  4.22
+----------------------------------------
+TOTAL ......................... 28.50 USD
+
+PAID - MASTERCARD ****1121
+********************************
+
+P<USAJOHNSON<<SARAH<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+B98765432<1USA9504229F2908153<<<<<<<<<<<<<<08
+
+TYPE/TYPE: P
+COUNTRY CODE/CODE DU PAYS: USA
+PASSPORT NO./NO. DU PASSEPORT: B98765432
+SURNAME/NOM: JOHNSON
+GIVEN NAME/PRÉNOMS: SARAH
+NATIONALITY/NATIONALITÉ: UNITED STATES OF AMERICA
+DATE OF BIRTH/DATE DE NAISSANCE: 22 APR / AVR 1995
+SEX/SEXE: F
+PLACE OF BIRTH/LIEU DE NAISSANCE: ILLINOIS, U.S.A.
+DATE OF ISSUE/DATE DE DÉLIVRANCE: 16 AUG / AOU 2019
+DATE OF EXPIRY/DATE D'EXPIRATION: 15 AUG / AOU 2029
+AUTHORITY/AUTORITÉ: UNITED STATES DEPARTMENT OF STATE
