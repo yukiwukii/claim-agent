@@ -17,7 +17,6 @@ import random
 from uuid import uuid4
 import json
 
-
 class GraphState(TypedDict):
     # Document processing
     current_document: str
@@ -324,10 +323,7 @@ def run_workflow_with_document(document_filepath: str, existing_state: Optional[
         return None
 
 def simulate_document_uploads():
-    print("Starting Document Upload Simulation")
-    print("=" * 60)
-
-    folder_path = "src/tests/test_cases/all_ok_anon/"
+    folder_path = "src/tests/test_cases/combined3/"
     test_files = glob.glob(os.path.join(folder_path, "*.txt"))
     random.shuffle(test_files)
     
